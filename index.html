@@ -1,0 +1,4073 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ElecStore – Belanja Elektronik Jadi Lebih Mudah</title>
+  <meta name="description"
+    content="Temukan berbagai kebutuhan elektronik favoritmu dengan harga terbaik di ElecStore." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== RESET & BASE ===== */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    /* ===== PHONE FRAME ===== */
+    .phone-frame {
+      width: 360px;
+      min-height: 720px;
+      background: #fff;
+      border-radius: 40px;
+      box-shadow:
+        0 0 0 8px #1c1c1e,
+        0 0 0 10px #3a3a3c,
+        0 30px 80px rgba(0, 0, 0, 0.6),
+        0 10px 30px rgba(0, 0, 0, 0.4);
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Status Bar */
+    .status-bar {
+      background: transparent;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 24px 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #1c1c1e;
+      position: relative;
+      z-index: 10;
+    }
+
+    .status-bar .time {
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .status-icons {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .status-icons svg {
+      width: 16px;
+      height: 16px;
+      fill: #1c1c1e;
+    }
+
+    /* ===== SCREENS ===== */
+    .screen {
+      display: none;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    /* ========================================
+       SCREEN 1: SPLASH SCREEN
+    ======================================== */
+    #screen-splash {
+      background: linear-gradient(160deg, #f0f9ff 0%, #e0f2fe 40%, #bae6fd 100%);
+      justify-content: center;
+      align-items: center;
+      padding: 40px 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Decorative blobs */
+    #screen-splash::before {
+      content: '';
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(99, 179, 237, 0.3), transparent);
+      top: -60px;
+      right: -60px;
+      border-radius: 50%;
+    }
+
+    #screen-splash::after {
+      content: '';
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.25), transparent);
+      bottom: 80px;
+      left: -50px;
+      border-radius: 50%;
+    }
+
+    .splash-logo-wrap {
+      width: 100px;
+      height: 100px;
+      background: #fff;
+      border-radius: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 30px rgba(14, 165, 233, 0.25);
+      margin-bottom: 28px;
+      animation: floatIcon 3s ease-in-out infinite;
+    }
+
+    .splash-logo-wrap svg {
+      width: 54px;
+      height: 54px;
+    }
+
+    @keyframes floatIcon {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    .splash-brand {
+      font-size: 42px;
+      font-weight: 900;
+      color: #0369a1;
+      letter-spacing: -1px;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .splash-brand span {
+      color: #0ea5e9;
+    }
+
+    .splash-tagline {
+      font-size: 14px;
+      color: #64748b;
+      text-align: center;
+      line-height: 1.6;
+      max-width: 220px;
+      margin-bottom: 50px;
+      font-weight: 600;
+    }
+
+    .btn-mulai {
+      width: 240px;
+      padding: 16px 32px;
+      background: linear-gradient(135deg, #0ea5e9, #0369a1);
+      color: #fff;
+      font-family: 'Nunito', sans-serif;
+      font-size: 17px;
+      font-weight: 800;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 8px 25px rgba(14, 165, 233, 0.45);
+      transition: transform 0.15s, box-shadow 0.15s;
+      margin-bottom: 30px;
+    }
+
+    .btn-mulai:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(14, 165, 233, 0.55);
+    }
+
+    .btn-mulai:active {
+      transform: scale(0.97);
+    }
+
+    .splash-dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #bae6fd;
+      transition: background 0.3s, width 0.3s;
+    }
+
+    .dot.active {
+      background: #0ea5e9;
+      width: 24px;
+      border-radius: 4px;
+    }
+
+    /* ========================================
+       SCREEN 2: HOME / BERANDA
+    ======================================== */
+    #screen-home {
+      background: #f1f5f9;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: #fff;
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    .navbar-brand {
+      font-size: 22px;
+      font-weight: 900;
+      color: #0369a1;
+      letter-spacing: -0.5px;
+    }
+
+    .navbar-brand span {
+      color: #0ea5e9;
+    }
+
+    .navbar-icons {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .navbar-icons svg {
+      width: 22px;
+      height: 22px;
+      stroke: #475569;
+      fill: none;
+      stroke-width: 2;
+      cursor: pointer;
+    }
+
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    .hamburger span {
+      width: 22px;
+      height: 2px;
+      background: #475569;
+      border-radius: 2px;
+      display: block;
+    }
+
+    /* Search */
+    .search-wrap {
+      padding: 12px 16px;
+      background: #fff;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #f1f5f9;
+      border-radius: 12px;
+      padding: 10px 14px;
+      border: 1.5px solid #e2e8f0;
+      transition: border-color 0.2s;
+    }
+
+    .search-box:focus-within {
+      border-color: #0ea5e9;
+    }
+
+    .search-box svg {
+      width: 18px;
+      height: 18px;
+      stroke: #94a3b8;
+      fill: none;
+      stroke-width: 2;
+      flex-shrink: 0;
+    }
+
+    .search-box input {
+      border: none;
+      background: transparent;
+      font-family: 'Nunito', sans-serif;
+      font-size: 13px;
+      color: #475569;
+      outline: none;
+      width: 100%;
+    }
+
+    .search-box input::placeholder {
+      color: #94a3b8;
+    }
+
+    /* Home Scroll Content */
+    .home-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding-bottom: 70px;
+    }
+
+    .home-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Banner */
+    .banner {
+      margin: 14px 16px;
+      background: linear-gradient(135deg, #1e3a5f, #0369a1);
+      border-radius: 18px;
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 6px 20px rgba(3, 105, 161, 0.35);
+    }
+
+    .banner::after {
+      content: '';
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 50%;
+      right: -30px;
+      top: -30px;
+    }
+
+    .banner-img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      flex-shrink: 0;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+    }
+
+    .banner-text {
+      color: #fff;
+      flex: 1;
+    }
+
+    .banner-text h2 {
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+
+    .banner-text p {
+      font-size: 12px;
+      opacity: 0.8;
+    }
+
+    .banner-btn {
+      width: 34px;
+      height: 34px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .banner-btn:hover {
+      background: rgba(255, 255, 255, 0.35);
+    }
+
+    .banner-btn svg {
+      width: 16px;
+      height: 16px;
+      stroke: #fff;
+      fill: none;
+      stroke-width: 2.5;
+    }
+
+    /* Category */
+    .section-title {
+      padding: 14px 16px 8px;
+      font-size: 15px;
+      font-weight: 800;
+      color: #1e293b;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .section-title a {
+      font-size: 12px;
+      color: #0ea5e9;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .categories {
+      display: flex;
+      justify-content: space-around;
+      padding: 0 16px 8px;
+      gap: 8px;
+    }
+
+    .cat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .cat-icon {
+      width: 56px;
+      height: 56px;
+      background: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      transition: transform 0.15s, box-shadow 0.15s;
+      border: 2px solid #e0f2fe;
+    }
+
+    .cat-icon:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(14, 165, 233, 0.2);
+    }
+
+    .cat-icon svg {
+      width: 26px;
+      height: 26px;
+      stroke: #0369a1;
+      fill: none;
+      stroke-width: 1.8;
+    }
+
+    .cat-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #475569;
+      text-align: center;
+    }
+
+    /* Products */
+    .products-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 0 16px 14px;
+    }
+
+    .product-card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+      transition: transform 0.15s, box-shadow 0.15s;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .product-card-img {
+      width: 100%;
+      height: 130px;
+      background: #f0f9ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+    }
+
+    .product-card-img img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .wishlist-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 30px;
+      height: 30px;
+      background: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+      cursor: pointer;
+    }
+
+    .wishlist-btn svg {
+      width: 14px;
+      height: 14px;
+      stroke: #f43f5e;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .wishlist-btn.active svg {
+      fill: #f43f5e;
+    }
+
+    .product-info {
+      padding: 10px 12px 14px;
+    }
+
+    .product-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 4px;
+    }
+
+    .product-price {
+      font-size: 14px;
+      font-weight: 800;
+      color: #0369a1;
+    }
+
+    /* Bottom Nav */
+    .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fff;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0 14px;
+      box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.06);
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      color: #94a3b8;
+      transition: color 0.2s;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .nav-item.active {
+      color: #0369a1;
+    }
+
+    .nav-item svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .nav-item.active svg {
+      stroke: #0369a1;
+    }
+
+    .nav-icon-wrap {
+      position: relative;
+    }
+
+    .nav-badge {
+      position: absolute;
+      top: -4px;
+      right: -6px;
+      width: 16px;
+      height: 16px;
+      background: #f43f5e;
+      border-radius: 50%;
+      font-size: 9px;
+      color: #fff;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ========================================
+       SCREEN 3: PRODUCT DETAIL
+    ======================================== */
+    #screen-detail {
+      background: #f8fafc;
+    }
+
+    .detail-topbar {
+      background: #fff;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .back-btn {
+      width: 36px;
+      height: 36px;
+      background: #f1f5f9;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .back-btn:hover {
+      background: #e2e8f0;
+    }
+
+    .back-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: #1e293b;
+      fill: none;
+      stroke-width: 2.5;
+    }
+
+    .topbar-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .topbar-actions button {
+      width: 36px;
+      height: 36px;
+      background: #f1f5f9;
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .topbar-actions button:hover {
+      background: #e2e8f0;
+    }
+
+    .topbar-actions svg {
+      width: 18px;
+      height: 18px;
+      stroke: #1e293b;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* Product Gallery */
+    .gallery-wrap {
+      background: #fff;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      height: 220px;
+    }
+
+    .gallery-wrap img {
+      max-height: 190px;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    .gallery-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 32px;
+      height: 32px;
+      background: #f1f5f9;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .gallery-nav svg {
+      width: 14px;
+      height: 14px;
+      stroke: #475569;
+      fill: none;
+      stroke-width: 2.5;
+    }
+
+    .gallery-nav.prev {
+      left: 12px;
+    }
+
+    .gallery-nav.next {
+      right: 12px;
+    }
+
+    .gallery-dots {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+    }
+
+    .gallery-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #cbd5e1;
+    }
+
+    .gallery-dot.active {
+      background: #0ea5e9;
+      width: 20px;
+      border-radius: 3px;
+    }
+
+    /* Detail Scroll */
+    .detail-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 16px 90px;
+    }
+
+    .detail-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .detail-name {
+      font-size: 18px;
+      font-weight: 800;
+      color: #1e293b;
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    .detail-price {
+      font-size: 22px;
+      font-weight: 900;
+      color: #0369a1;
+      margin-bottom: 10px;
+    }
+
+    .rating-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .stars {
+      display: flex;
+      gap: 2px;
+    }
+
+    .stars svg {
+      width: 16px;
+      height: 16px;
+      fill: #f59e0b;
+      stroke: none;
+    }
+
+    .stars svg.half {
+      fill: url(#half-star);
+    }
+
+    .rating-score {
+      font-size: 13px;
+      font-weight: 800;
+      color: #1e293b;
+    }
+
+    .rating-count {
+      font-size: 12px;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    /* Variant Section */
+    .variant-section {
+      background: #fff;
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+    }
+
+    .variant-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #64748b;
+      margin-bottom: 10px;
+    }
+
+    .variant-label strong {
+      color: #1e293b;
+    }
+
+    /* Color Swatches */
+    .color-options {
+      display: flex;
+      gap: 10px;
+    }
+
+    .color-swatch {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+
+    .color-swatch:hover {
+      transform: scale(1.1);
+    }
+
+    .color-swatch.selected {
+      border-color: #0ea5e9;
+      box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0ea5e9;
+    }
+
+    /* Storage Options */
+    .storage-options {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .storage-btn {
+      padding: 7px 18px;
+      border-radius: 10px;
+      border: 2px solid #e2e8f0;
+      background: #fff;
+      font-family: 'Nunito', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .storage-btn:hover {
+      border-color: #0ea5e9;
+      color: #0369a1;
+    }
+
+    .storage-btn.selected {
+      border-color: #0ea5e9;
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    /* Quantity */
+    .qty-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .qty-btn {
+      width: 34px;
+      height: 34px;
+      background: #f1f5f9;
+      border: none;
+      border-radius: 10px;
+      font-size: 20px;
+      font-weight: 700;
+      color: #0369a1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
+    }
+
+    .qty-btn:hover {
+      background: #e0f2fe;
+    }
+
+    .qty-num {
+      font-size: 16px;
+      font-weight: 800;
+      color: #1e293b;
+      min-width: 24px;
+      text-align: center;
+    }
+
+    /* Add to Cart Button */
+    .add-to-cart-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 12px 16px 18px;
+      background: #fff;
+      box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    .btn-cart {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #1e3a5f, #0369a1);
+      color: #fff;
+      font-family: 'Nunito', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 6px 20px rgba(3, 105, 161, 0.4);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .btn-cart:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(3, 105, 161, 0.5);
+    }
+
+    .btn-cart:active {
+      transform: scale(0.98);
+    }
+
+    .btn-cart svg {
+      width: 20px;
+      height: 20px;
+      stroke: #fff;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #1e293b;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 12px 24px;
+      border-radius: 50px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s;
+      white-space: nowrap;
+      z-index: 1000;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .screen.active {
+      animation: fadeSlideUp 0.35s ease;
+    }
+
+    /* ========================================
+       SCREEN 4: CHECKOUT
+    ======================================== */
+    #screen-checkout {
+      background: #f1f5f9;
+    }
+
+    .checkout-header {
+      background: #fff;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    .checkout-header h2 {
+      font-size: 17px;
+      font-weight: 800;
+      color: #1e293b;
+    }
+
+    .checkout-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px 16px 100px;
+    }
+
+    .checkout-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .checkout-section {
+      background: #fff;
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+    }
+
+    .checkout-section-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #1e293b;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .checkout-section-title svg {
+      width: 18px;
+      height: 18px;
+      stroke: #0369a1;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #64748b;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 13px;
+      color: #1e293b;
+      outline: none;
+      transition: border-color 0.2s;
+      background: #f8fafc;
+    }
+
+    .form-input:focus {
+      border-color: #0ea5e9;
+      background: #fff;
+    }
+
+    .form-input::placeholder {
+      color: #94a3b8;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+    }
+
+    /* Payment Methods */
+    .payment-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .payment-opt {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .payment-opt:hover {
+      border-color: #bae6fd;
+    }
+
+    .payment-opt.selected {
+      border-color: #0ea5e9;
+      background: #f0f9ff;
+    }
+
+    .payment-opt-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .payment-opt-info {
+      flex: 1;
+    }
+
+    .payment-opt-name {
+      font-size: 13px;
+      font-weight: 800;
+      color: #1e293b;
+    }
+
+    .payment-opt-desc {
+      font-size: 11px;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    .payment-radio {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .payment-opt.selected .payment-radio {
+      border-color: #0ea5e9;
+    }
+
+    .payment-radio-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #0ea5e9;
+      display: none;
+    }
+
+    .payment-opt.selected .payment-radio-dot {
+      display: block;
+    }
+
+    /* Order Summary */
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      font-size: 13px;
+      color: #475569;
+      font-weight: 600;
+    }
+
+    .summary-row.total {
+      border-top: 1.5px dashed #e2e8f0;
+      margin-top: 8px;
+      padding-top: 12px;
+      font-size: 15px;
+      font-weight: 900;
+      color: #1e293b;
+    }
+
+    .summary-row.total span:last-child {
+      color: #0369a1;
+    }
+
+    /* Checkout Bar */
+    .checkout-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 12px 16px 18px;
+      background: #fff;
+      box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    .btn-order {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #059669, #10b981);
+      color: #fff;
+      font-family: 'Nunito', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 6px 20px rgba(5, 150, 105, 0.4);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .btn-order:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(5, 150, 105, 0.5);
+    }
+
+    .btn-order:active {
+      transform: scale(0.98);
+    }
+
+    .btn-order svg {
+      width: 20px;
+      height: 20px;
+      stroke: #fff;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* Beli Sekarang button on detail */
+    .detail-action-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-beli {
+      flex: 1;
+      padding: 15px;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #fff;
+      font-family: 'Nunito', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+      transition: transform 0.15s;
+    }
+
+    .btn-beli:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-beli:active {
+      transform: scale(0.98);
+    }
+
+    .btn-beli svg {
+      width: 18px;
+      height: 18px;
+      stroke: #fff;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .btn-cart-sm {
+      flex: 1;
+      padding: 15px;
+      background: linear-gradient(135deg, #1e3a5f, #0369a1);
+      color: #fff;
+      font-family: 'Nunito', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 6px 20px rgba(3, 105, 161, 0.4);
+      transition: transform 0.15s;
+    }
+
+    .btn-cart-sm:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-cart-sm:active {
+      transform: scale(0.98);
+    }
+
+    .btn-cart-sm svg {
+      width: 18px;
+      height: 18px;
+      stroke: #fff;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* ========================================
+       SCREEN 5: RIWAYAT PESANAN
+    ======================================== */
+    #screen-orders {
+      background: #f1f5f9;
+    }
+
+    .orders-header {
+      background: linear-gradient(135deg, #1e3a5f, #0369a1);
+      padding: 16px 16px 60px;
+      position: relative;
+    }
+
+    .orders-header-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 4px;
+    }
+
+    .orders-header h2 {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .orders-header p {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: 600;
+    }
+
+    /* Status Tabs */
+    .orders-tabs-wrap {
+      margin: -44px 12px 0;
+      background: #fff;
+      border-radius: 16px;
+      padding: 6px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      display: flex;
+      gap: 4px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .order-tab {
+      flex: 1;
+      padding: 8px 4px;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      font-family: 'Nunito', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .order-tab.active {
+      background: #0369a1;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(3, 105, 161, 0.3);
+    }
+
+    /* Orders List */
+    .orders-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px 12px 80px;
+    }
+
+    .orders-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .order-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+
+    .order-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .order-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .order-id {
+      font-size: 12px;
+      font-weight: 700;
+      color: #94a3b8;
+    }
+
+    .order-date {
+      font-size: 11px;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    .order-status-badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .badge-pending {
+      background: #fef3c7;
+      color: #d97706;
+    }
+
+    .badge-process {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .badge-shipped {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .badge-done {
+      background: #dcfce7;
+      color: #16a34a;
+    }
+
+    .badge-cancel {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .order-product-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .order-product-img {
+      width: 56px;
+      height: 56px;
+      background: #f0f9ff;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .order-product-img img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .order-product-info {
+      flex: 1;
+    }
+
+    .order-product-name {
+      font-size: 13px;
+      font-weight: 800;
+      color: #1e293b;
+      margin-bottom: 3px;
+    }
+
+    .order-product-variant {
+      font-size: 11px;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    .order-product-qty {
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 700;
+      margin-top: 3px;
+    }
+
+    .order-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #f1f5f9;
+      padding-top: 10px;
+    }
+
+    .order-total-label {
+      font-size: 12px;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    .order-total-price {
+      font-size: 15px;
+      font-weight: 900;
+      color: #0369a1;
+    }
+
+    .order-action-btn {
+      padding: 7px 14px;
+      border-radius: 10px;
+      border: 2px solid #0369a1;
+      background: transparent;
+      font-family: 'Nunito', sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      color: #0369a1;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .order-action-btn:hover {
+      background: #0369a1;
+      color: #fff;
+    }
+
+    .order-action-btn.primary {
+      background: #0369a1;
+      color: #fff;
+      border-color: #0369a1;
+    }
+
+    .order-action-btn.primary:hover {
+      background: #0284c7;
+    }
+
+    .empty-orders {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .empty-orders svg {
+      width: 70px;
+      height: 70px;
+      stroke: #cbd5e1;
+      fill: none;
+      stroke-width: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .empty-orders h3 {
+      font-size: 16px;
+      font-weight: 800;
+      color: #94a3b8;
+      margin-bottom: 6px;
+    }
+
+    .empty-orders p {
+      font-size: 13px;
+      color: #cbd5e1;
+      font-weight: 600;
+    }
+
+    /* Order success modal */
+    .modal-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .modal-overlay.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-box {
+      background: #fff;
+      border-radius: 24px;
+      padding: 30px 24px;
+      text-align: center;
+      width: 88%;
+      transform: scale(0.85);
+      transition: transform 0.3s;
+    }
+
+    .modal-overlay.show .modal-box {
+      transform: scale(1);
+    }
+
+    .modal-icon {
+      width: 72px;
+      height: 72px;
+      background: #dcfce7;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+
+    .modal-icon svg {
+      width: 36px;
+      height: 36px;
+      stroke: #16a34a;
+      fill: none;
+      stroke-width: 2.5;
+    }
+
+    .modal-box h3 {
+      font-size: 20px;
+      font-weight: 900;
+      color: #1e293b;
+      margin-bottom: 8px;
+    }
+
+    .modal-box p {
+      font-size: 13px;
+      color: #64748b;
+      font-weight: 600;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .modal-order-num {
+      background: #f0f9ff;
+      border-radius: 12px;
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 800;
+      color: #0369a1;
+      margin-bottom: 20px;
+    }
+
+    .modal-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #1e3a5f, #0369a1);
+      color: #fff;
+      font-family: 'Nunito', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(3, 105, 161, 0.35);
+    }
+
+    /* Confirmation Modal Variants */
+    .confirm-modal-icon-cancel {
+      width: 72px;
+      height: 72px;
+      background: #fee2e2;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+
+    .confirm-modal-icon-cancel svg {
+      width: 36px;
+      height: 36px;
+      stroke: #dc2626;
+      fill: none;
+      stroke-width: 2.5;
+    }
+
+    .confirm-modal-icon-done {
+      width: 72px;
+      height: 72px;
+      background: #dcfce7;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+
+    .confirm-modal-icon-done svg {
+      width: 36px;
+      height: 36px;
+      stroke: #16a34a;
+      fill: none;
+      stroke-width: 2.5;
+    }
+
+    .modal-btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .modal-btn-outline {
+      flex: 1;
+      padding: 13px;
+      background: transparent;
+      color: #64748b;
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      border: 2px solid #e2e8f0;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .modal-btn-outline:hover {
+      background: #f1f5f9;
+    }
+
+    .modal-btn-danger {
+      flex: 1;
+      padding: 13px;
+      background: linear-gradient(135deg, #b91c1c, #dc2626);
+      color: #fff;
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(220, 38, 38, 0.35);
+      transition: transform 0.15s;
+    }
+
+    .modal-btn-danger:hover {
+      transform: translateY(-2px);
+    }
+
+    .modal-btn-success {
+      flex: 1;
+      padding: 13px;
+      background: linear-gradient(135deg, #059669, #10b981);
+      color: #fff;
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(5, 150, 105, 0.35);
+      transition: transform 0.15s;
+    }
+
+    .modal-btn-success:hover {
+      transform: translateY(-2px);
+    }
+
+    /* ========================================
+       SCREEN: SEARCH
+    ======================================== */
+    #screen-search {
+      background: #f1f5f9;
+    }
+
+    .search-header {
+      background: #fff;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    .search-header-box {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f1f5f9;
+      border-radius: 12px;
+      padding: 10px 14px;
+      border: 1.5px solid #e2e8f0;
+      transition: border-color 0.2s;
+    }
+
+    .search-header-box:focus-within {
+      border-color: #0ea5e9;
+    }
+
+    .search-header-box svg {
+      width: 18px;
+      height: 18px;
+      stroke: #94a3b8;
+      fill: none;
+      stroke-width: 2;
+      flex-shrink: 0;
+    }
+
+    .search-header-box input {
+      border: none;
+      background: transparent;
+      font-family: 'Nunito', sans-serif;
+      font-size: 13px;
+      color: #475569;
+      outline: none;
+      width: 100%;
+    }
+
+    .search-cancel-btn {
+      font-size: 13px;
+      font-weight: 700;
+      color: #0369a1;
+      cursor: pointer;
+      white-space: nowrap;
+      background: none;
+      border: none;
+      font-family: 'Nunito', sans-serif;
+    }
+
+    .search-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px 16px 80px;
+    }
+
+    .search-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .search-tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .search-tag {
+      padding: 6px 14px;
+      background: #e0f2fe;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #0369a1;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .search-tag:hover {
+      background: #bae6fd;
+    }
+
+    .search-results-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #475569;
+      margin-bottom: 10px;
+    }
+
+    /* ========================================
+       SCREEN: CART
+    ======================================== */
+    #screen-cart {
+      background: #f1f5f9;
+    }
+
+    .cart-header {
+      background: #fff;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    .cart-header h2 {
+      font-size: 17px;
+      font-weight: 800;
+      color: #1e293b;
+      flex: 1;
+    }
+
+    .cart-clear-btn {
+      font-size: 12px;
+      font-weight: 700;
+      color: #f43f5e;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: 'Nunito', sans-serif;
+    }
+
+    .cart-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px 16px 110px;
+    }
+
+    .cart-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .cart-item {
+      background: #fff;
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .cart-item-img {
+      width: 64px;
+      height: 64px;
+      background: #f0f9ff;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .cart-item-img img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .cart-item-info {
+      flex: 1;
+    }
+
+    .cart-item-name {
+      font-size: 13px;
+      font-weight: 800;
+      color: #1e293b;
+      margin-bottom: 3px;
+    }
+
+    .cart-item-variant {
+      font-size: 11px;
+      color: #94a3b8;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .cart-item-price {
+      font-size: 14px;
+      font-weight: 900;
+      color: #0369a1;
+    }
+
+    .cart-item-qty-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .cart-qty-btn {
+      width: 28px;
+      height: 28px;
+      background: #f1f5f9;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #0369a1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cart-qty-btn:hover {
+      background: #e0f2fe;
+    }
+
+    .cart-item-num {
+      font-size: 14px;
+      font-weight: 800;
+      color: #1e293b;
+      min-width: 20px;
+      text-align: center;
+    }
+
+    .cart-item-delete {
+      width: 32px;
+      height: 32px;
+      background: #fee2e2;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .cart-item-delete svg {
+      width: 16px;
+      height: 16px;
+      stroke: #dc2626;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .cart-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 12px 16px 18px;
+      background: #fff;
+      box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    .cart-bar-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .cart-bar-total-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #64748b;
+    }
+
+    .cart-bar-total-price {
+      font-size: 18px;
+      font-weight: 900;
+      color: #0369a1;
+    }
+
+    .empty-cart {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .empty-cart svg {
+      width: 70px;
+      height: 70px;
+      stroke: #cbd5e1;
+      fill: none;
+      stroke-width: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .empty-cart h3 {
+      font-size: 16px;
+      font-weight: 800;
+      color: #94a3b8;
+      margin-bottom: 6px;
+    }
+
+    .empty-cart p {
+      font-size: 13px;
+      color: #cbd5e1;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .empty-cart-btn {
+      padding: 12px 28px;
+      background: linear-gradient(135deg, #1e3a5f, #0369a1);
+      color: #fff;
+      border: none;
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      border-radius: 14px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(3, 105, 161, 0.3);
+    }
+
+    /* ========================================
+       SIDE MENU DRAWER
+    ======================================== */
+    .drawer-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 300;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .drawer-overlay.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .drawer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 260px;
+      background: #fff;
+      z-index: 301;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .drawer-overlay.show .drawer {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      background: linear-gradient(135deg, #1e3a5f, #0369a1);
+      padding: 40px 20px 20px;
+    }
+
+    .drawer-brand {
+      font-size: 24px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+    }
+
+    .drawer-brand span {
+      color: #bae6fd;
+    }
+
+    .drawer-sub {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: 600;
+    }
+
+    .drawer-menu {
+      flex: 1;
+      padding: 10px 0;
+      overflow-y: auto;
+    }
+
+    .drawer-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 20px;
+      cursor: pointer;
+      transition: background 0.15s;
+      font-size: 14px;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    .drawer-item:hover {
+      background: #f0f9ff;
+    }
+
+    .drawer-item svg {
+      width: 20px;
+      height: 20px;
+      stroke: #0369a1;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .drawer-divider {
+      height: 1px;
+      background: #e2e8f0;
+      margin: 6px 20px;
+    }
+
+    .drawer-item-badge {
+      margin-left: auto;
+      background: #f43f5e;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+
+    /* Category Filter Chips on Search */
+    .cat-chips {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin-bottom: 14px;
+    }
+
+    .cat-chips::-webkit-scrollbar {
+      display: none;
+    }
+
+    .cat-chip {
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 2px solid #e2e8f0;
+      background: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      color: #64748b;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+
+    .cat-chip.active,
+    .cat-chip:hover {
+      border-color: #0ea5e9;
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    /* ========================================
+       SCREEN: PROFIL AKUN
+    ======================================== */
+    #screen-profile {
+      background: #f1f5f9;
+    }
+
+    .profile-header {
+      background: linear-gradient(135deg, #1e3a5f, #0369a1);
+      padding: 16px 16px 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .profile-header .back-btn {
+      position: absolute;
+      top: 12px;
+      left: 16px;
+    }
+
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 16px 0 10px;
+      border: 3px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .profile-name {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .profile-email {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .profile-stats {
+      display: flex;
+      gap: 0;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      padding: 14px 20px;
+      width: 100%;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .profile-stat {
+      text-align: center;
+    }
+
+    .profile-stat-num {
+      font-size: 20px;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .profile-stat-label {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: 600;
+    }
+
+    .profile-stat-divider {
+      width: 1px;
+      height: 36px;
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .profile-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 16px 80px;
+    }
+
+    .profile-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .profile-section-label {
+      font-size: 12px;
+      font-weight: 800;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 8px 0 10px;
+    }
+
+    .profile-menu {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+      margin-bottom: 14px;
+    }
+
+    .profile-menu-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      cursor: pointer;
+      border-bottom: 1px solid #f1f5f9;
+      transition: background 0.15s;
+    }
+
+    .profile-menu-item:last-child {
+      border-bottom: none;
+    }
+
+    .profile-menu-item:hover {
+      background: #f8fafc;
+    }
+
+    .profile-menu-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .profile-menu-item span {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    .profile-arrow {
+      width: 16px;
+      height: 16px;
+      stroke: #cbd5e1;
+      fill: none;
+      stroke-width: 2.5;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SVG Defs for half-star -->
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <linearGradient id="half-star" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="50%" stop-color="#f59e0b" />
+        <stop offset="50%" stop-color="#cbd5e1" />
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <!-- Phone Frame -->
+  <div class="phone-frame" id="phoneFrame">
+
+    <!-- STATUS BAR -->
+    <div class="status-bar" id="statusBar">
+      <span class="time">9:41</span>
+      <div class="status-icons">
+        <!-- Signal -->
+        <svg viewBox="0 0 24 24">
+          <rect x="2" y="14" width="4" height="6" rx="1" />
+          <rect x="8" y="10" width="4" height="10" rx="1" />
+          <rect x="14" y="6" width="4" height="14" rx="1" />
+          <rect x="20" y="2" width="4" height="18" rx="1" opacity=".3" />
+        </svg>
+        <!-- WiFi -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1c1c1e" stroke-width="2">
+          <path d="M5 12.55a11 11 0 0114.08 0" />
+          <path d="M1.42 9a16 16 0 0121.16 0" />
+          <path d="M8.53 16.11a6 6 0 016.95 0" />
+          <circle cx="12" cy="20" r="1" fill="#1c1c1e" />
+        </svg>
+        <!-- Battery -->
+        <svg viewBox="0 0 24 24" fill="#1c1c1e">
+          <rect x="2" y="7" width="18" height="10" rx="2" fill="none" stroke="#1c1c1e" stroke-width="1.5" />
+          <rect x="20" y="10" width="2" height="4" rx="1" />
+          <rect x="3.5" y="8.5" width="13" height="7" rx="1" fill="#1c1c1e" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- ===================== SCREEN 1: SPLASH ===================== -->
+    <div class="screen active" id="screen-splash">
+      <div class="splash-logo-wrap">
+        <!-- Cart Icon -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="#0369a1" stroke-width="1.8" stroke-linecap="round"
+          stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1" />
+          <circle cx="20" cy="21" r="1" />
+          <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.95-1.57l1.65-8.42H6" />
+        </svg>
+      </div>
+      <h1 class="splash-brand">Elec<span>Store</span></h1>
+      <p class="splash-tagline">Belanja Elektronik<br>Jadi Lebih Mudah</p>
+      <button class="btn-mulai" id="btnMulai" onclick="goToHome()">
+        Mulai
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+          stroke-linejoin="round" style="width:18px;height:18px">
+          <line x1="5" y1="12" x2="19" y2="12" />
+          <polyline points="12 5 19 12 12 19" />
+        </svg>
+      </button>
+      <div class="splash-dots">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    </div>
+
+    <!-- ===================== SCREEN 2: HOME ===================== -->
+    <div class="screen" id="screen-home">
+
+      <!-- Navbar -->
+      <div class="navbar">
+        <div class="hamburger" onclick="openDrawer()">
+          <span></span><span></span><span></span>
+        </div>
+        <div class="navbar-brand">Elec<span>Store</span></div>
+        <div class="navbar-icons">
+          <!-- Cart with badge -->
+          <div style="position:relative;cursor:pointer" onclick="goToCart()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" style="width:24px;height:24px">
+              <circle cx="9" cy="21" r="1" />
+              <circle cx="20" cy="21" r="1" />
+              <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.95-1.57l1.65-8.42H6" />
+            </svg>
+            <div class="nav-badge" id="cartBadge" style="display:none">0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="search-wrap" onclick="goToSearch()" style="cursor:pointer">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input type="text" placeholder="Cari produk, merek, atau kategori..." readonly style="cursor:pointer" />
+        </div>
+      </div>
+
+      <!-- Scrollable Content -->
+      <div class="home-scroll">
+
+        <!-- Banner -->
+        <div class="banner" onclick="goToDetail('headphone')" style="cursor:pointer">
+          <img src="images/headphone.png" alt="Headphone" class="banner-img" />
+          <div class="banner-text">
+            <h2>Diskon<br>hingga<br>50%</h2>
+            <p>Penawaran terbatas!</p>
+          </div>
+          <div class="banner-btn">
+            <svg viewBox="0 0 24 24">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="section-title">Kategori</div>
+        <div class="categories">
+          <div class="cat-item" onclick="goToSearchCategory('HP')">
+            <div class="cat-icon">
+              <!-- Phone icon -->
+              <svg viewBox="0 0 24 24">
+                <rect x="5" y="2" width="14" height="20" rx="2" />
+                <circle cx="12" cy="18" r="1" fill="#0369a1" />
+              </svg>
+            </div>
+            <span class="cat-label">HP</span>
+          </div>
+          <div class="cat-item" onclick="goToSearchCategory('Laptop')">
+            <div class="cat-icon">
+              <!-- Laptop icon -->
+              <svg viewBox="0 0 24 24">
+                <rect x="3" y="4" width="18" height="13" rx="1" />
+                <path d="M1 20h22" />
+              </svg>
+            </div>
+            <span class="cat-label">Laptop</span>
+          </div>
+          <div class="cat-item" onclick="goToSearchCategory('Audio')">
+            <div class="cat-icon">
+              <!-- Headphone icon -->
+              <svg viewBox="0 0 24 24">
+                <path d="M3 18v-6a9 9 0 0118 0v6" />
+                <path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3v5z" />
+                <path d="M3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3v5z" />
+              </svg>
+            </div>
+            <span class="cat-label">Audio</span>
+          </div>
+          <div class="cat-item" onclick="goToSearchCategory('Elektronik')">
+            <div class="cat-icon">
+              <!-- TV icon -->
+              <svg viewBox="0 0 24 24">
+                <rect x="2" y="7" width="20" height="15" rx="1" />
+                <polyline points="17 2 12 7 7 2" />
+              </svg>
+            </div>
+            <span class="cat-label" style="font-size:9.5px;max-width:56px">Elektronik Rumah</span>
+          </div>
+        </div>
+
+        <!-- Popular Products -->
+        <div class="section-title">
+          Produk Populer
+          <a href="#" onclick="goToSearch(); return false;">Lihat Semua ›</a>
+        </div>
+        <div class="products-grid">
+
+          <!-- Product 1 -->
+          <div class="product-card" onclick="goToDetail('samsung')">
+            <div class="wishlist-btn" id="wish-1" onclick="toggleWish(event,'wish-1')">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+              </svg>
+            </div>
+            <div class="product-card-img">
+              <img src="images/samsung_a15.png" alt="Smartphone Samsung A15" />
+            </div>
+            <div class="product-info">
+              <div class="product-name">Smartphone Samsung A15</div>
+              <div class="product-price">Rp 2.499.000</div>
+            </div>
+          </div>
+
+          <!-- Product 2 -->
+          <div class="product-card" onclick="goToDetail('earphone')">
+            <div class="wishlist-btn" id="wish-2" onclick="toggleWish(event,'wish-2')">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+              </svg>
+            </div>
+            <div class="product-card-img">
+              <img src="images/earphone_tws.png" alt="Earphone TWS" />
+            </div>
+            <div class="product-info">
+              <div class="product-name">Earphone TWS</div>
+              <div class="product-price">Rp 299.000</div>
+            </div>
+          </div>
+
+          <!-- Product 3 -->
+          <div class="product-card" onclick="goToDetail('headphone')">
+            <div class="wishlist-btn" id="wish-3" onclick="toggleWish(event,'wish-3')">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+              </svg>
+            </div>
+            <div class="product-card-img">
+              <img src="images/headphone.png" alt="Headphone" />
+            </div>
+            <div class="product-info">
+              <div class="product-name">Headphone Pro</div>
+              <div class="product-price">Rp 549.000</div>
+            </div>
+          </div>
+
+          <!-- Product 4 -->
+          <div class="product-card" onclick="goToDetail('aksesoris')">
+            <div class="wishlist-btn" id="wish-4" onclick="toggleWish(event,'wish-4')">
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+              </svg>
+            </div>
+            <div class="product-card-img" style="background:#f0fdf4;">
+              <img src="images/cart_icon.png" alt="Aksesoris" />
+            </div>
+            <div class="product-info">
+              <div class="product-name">Aksesoris Bundle</div>
+              <div class="product-price">Rp 149.000</div>
+            </div>
+          </div>
+
+        </div><!-- /products-grid -->
+      </div><!-- /home-scroll -->
+
+      <!-- Bottom Nav -->
+      <div class="bottom-nav">
+        <div class="nav-item active">
+          <div class="nav-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="#0369a1" stroke="#0369a1">
+              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" />
+            </svg>
+          </div>
+          Beranda
+        </div>
+        <div class="nav-item" onclick="goToSearch()">
+          <div class="nav-icon-wrap">
+            <svg viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+          </div>
+          Cari
+        </div>
+        <div class="nav-item" onclick="goToOrders()">
+          <div class="nav-icon-wrap" id="ordersNavWrap">
+            <svg viewBox="0 0 24 24">
+              <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" />
+              <rect x="9" y="3" width="6" height="4" rx="1" />
+              <line x1="9" y1="12" x2="15" y2="12" />
+              <line x1="9" y1="16" x2="13" y2="16" />
+            </svg>
+            <div class="nav-badge" id="orderBadge" style="display:none">0</div>
+          </div>
+          Pesanan
+        </div>
+        <div class="nav-item" onclick="goToCart()">
+          <div class="nav-icon-wrap">
+            <svg viewBox="0 0 24 24">
+              <circle cx="9" cy="21" r="1" />
+              <circle cx="20" cy="21" r="1" />
+              <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.95-1.57l1.65-8.42H6" />
+            </svg>
+            <div class="nav-badge" id="cartBadge2" style="display:none">0</div>
+          </div>
+          Keranjang
+        </div>
+      </div>
+
+    </div><!-- /screen-home -->
+
+    <!-- ===================== SCREEN 3: DETAIL ===================== -->
+    <div class="screen" id="screen-detail">
+
+      <!-- Top Bar -->
+      <div class="detail-topbar">
+        <div class="back-btn" onclick="goToHome()">
+          <svg viewBox="0 0 24 24">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </div>
+        <div class="topbar-actions">
+          <button id="wishlistTopBtn" onclick="toggleDetailWish()">
+            <svg id="wishlistTopIcon" viewBox="0 0 24 24">
+              <path
+                d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"
+                stroke="#f43f5e" stroke-width="2" />
+            </svg>
+          </button>
+          <button>
+            <svg viewBox="0 0 24 24">
+              <circle cx="18" cy="5" r="3" />
+              <circle cx="6" cy="12" r="3" />
+              <circle cx="18" cy="19" r="3" />
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Gallery -->
+      <div class="gallery-wrap">
+        <div class="gallery-nav prev">
+          <svg viewBox="0 0 24 24">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </div>
+        <img id="detailImg" src="images/samsung_a15.png" alt="Samsung A15" />
+        <div class="gallery-nav next">
+          <svg viewBox="0 0 24 24">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </div>
+        <div class="gallery-dots">
+          <div class="gallery-dot active"></div>
+          <div class="gallery-dot"></div>
+          <div class="gallery-dot"></div>
+          <div class="gallery-dot"></div>
+        </div>
+      </div>
+
+      <!-- Detail Scrollable -->
+      <div class="detail-scroll">
+
+        <div id="detailName" class="detail-name">Smartphone Samsung A15</div>
+        <div id="detailPrice" class="detail-price">Rp 2.499.000</div>
+
+        <!-- Rating -->
+        <div class="rating-row">
+          <div class="stars">
+            <svg viewBox="0 0 24 24">
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg>
+            <svg viewBox="0 0 24 24">
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg>
+            <svg viewBox="0 0 24 24">
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg>
+            <svg viewBox="0 0 24 24">
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg>
+            <!-- Half star -->
+            <svg viewBox="0 0 24 24" fill="url(#half-star)" style="fill:url(#half-star)">
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg>
+          </div>
+          <span class="rating-score">4.8</span>
+          <span class="rating-count">(1.2k ulasan)</span>
+        </div>
+
+        <!-- Pilih Varian -->
+        <div class="variant-section">
+          <div class="variant-label"><strong>Pilih Varian</strong></div>
+
+          <!-- Warna -->
+          <div class="variant-label">Warna</div>
+          <div class="color-options" id="colorOptions">
+            <div class="color-swatch selected" style="background:#374151;" data-color="Hitam"
+              onclick="selectColor(this)"></div>
+            <div class="color-swatch" style="background:#6b7280;" data-color="Abu-abu" onclick="selectColor(this)">
+            </div>
+            <div class="color-swatch" style="background:#bfdbfe;" data-color="Biru Muda" onclick="selectColor(this)">
+            </div>
+          </div>
+
+          <!-- Kapasitas -->
+          <div class="variant-label" style="margin-top:14px">Kapasitas</div>
+          <div class="storage-options" id="storageOptions">
+            <button class="storage-btn selected" onclick="selectStorage(this)">128 GB</button>
+            <button class="storage-btn" onclick="selectStorage(this)">256 GB</button>
+          </div>
+
+          <!-- Jumlah -->
+          <div class="variant-label" style="margin-top:14px">Jumlah</div>
+          <div class="qty-row">
+            <button class="qty-btn" onclick="changeQty(-1)">−</button>
+            <span class="qty-num" id="qtyNum">1</span>
+            <button class="qty-btn" onclick="changeQty(1)">+</button>
+          </div>
+        </div>
+
+      </div><!-- /detail-scroll -->
+
+      <!-- Add to Cart + Beli Sekarang -->
+      <div class="add-to-cart-bar">
+        <div class="detail-action-row">
+          <button class="btn-cart-sm" onclick="addToCart()">
+            <svg viewBox="0 0 24 24">
+              <circle cx="9" cy="21" r="1" />
+              <circle cx="20" cy="21" r="1" />
+              <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.95-1.57l1.65-8.42H6" />
+            </svg>
+            + Keranjang
+          </button>
+          <button class="btn-beli" onclick="goToCheckout()">
+            <svg viewBox="0 0 24 24">
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <path d="M16 10a4 4 0 01-8 0" />
+            </svg>
+            Beli Sekarang
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /screen-detail -->
+
+    <!-- ===================== SCREEN 4: CHECKOUT ===================== -->
+    <div class="screen" id="screen-checkout">
+
+      <!-- Header -->
+      <div class="checkout-header">
+        <div class="back-btn" onclick="goBackFromCheckout()">
+          <svg viewBox="0 0 24 24">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </div>
+        <h2>Konfirmasi Pesanan</h2>
+      </div>
+
+      <!-- Scrollable Content -->
+      <div class="checkout-scroll">
+
+        <!-- Ringkasan Produk -->
+        <div class="checkout-section">
+          <div class="checkout-section-title">
+            <svg viewBox="0 0 24 24">
+              <circle cx="9" cy="21" r="1" />
+              <circle cx="20" cy="21" r="1" />
+              <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.95-1.57l1.65-8.42H6" />
+            </svg>
+            Produk Dipesan
+          </div>
+          <div class="order-product-row">
+            <div class="order-product-img">
+              <img id="checkoutImg" src="images/samsung_a15.png" alt="Produk" />
+            </div>
+            <div class="order-product-info">
+              <div class="order-product-name" id="checkoutName">Smartphone Samsung A15</div>
+              <div class="order-product-variant" id="checkoutVariant">Hitam · 128 GB</div>
+              <div class="order-product-qty" id="checkoutQty">Jumlah: 1</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Alamat Pengiriman -->
+        <div class="checkout-section">
+          <div class="checkout-section-title">
+            <svg viewBox="0 0 24 24">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            Alamat Pengiriman
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nama Penerima</label>
+            <input class="form-input" id="recName" type="text" placeholder="Nama lengkap penerima..." />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nomor Telepon</label>
+            <input class="form-input" id="recPhone" type="tel" placeholder="08xxxxxxxxxx" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Alamat Lengkap</label>
+            <input class="form-input" id="recAddress" type="text" placeholder="Jl. Nama Jalan No. X..." />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Kota</label>
+              <input class="form-input" id="recCity" type="text" placeholder="Nama kota" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Kode Pos</label>
+              <input class="form-input" id="recZip" type="text" placeholder="00000" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Metode Pembayaran -->
+        <div class="checkout-section">
+          <div class="checkout-section-title">
+            <svg viewBox="0 0 24 24">
+              <rect x="1" y="4" width="22" height="16" rx="2" />
+              <line x1="1" y1="10" x2="23" y2="10" />
+            </svg>
+            Metode Pembayaran
+          </div>
+          <div class="payment-options">
+            <div class="payment-opt selected" onclick="selectPayment(this)">
+              <div class="payment-opt-icon" style="background:#e0f2fe">💳</div>
+              <div class="payment-opt-info">
+                <div class="payment-opt-name">Transfer Bank</div>
+                <div class="payment-opt-desc">BCA · Mandiri · BRI · BNI</div>
+              </div>
+              <div class="payment-radio">
+                <div class="payment-radio-dot"></div>
+              </div>
+            </div>
+            <div class="payment-opt" onclick="selectPayment(this)">
+              <div class="payment-opt-icon" style="background:#fef3c7">📱</div>
+              <div class="payment-opt-info">
+                <div class="payment-opt-name">E-Wallet</div>
+                <div class="payment-opt-desc">GoPay · OVO · Dana · ShopeePay</div>
+              </div>
+              <div class="payment-radio">
+                <div class="payment-radio-dot"></div>
+              </div>
+            </div>
+            <div class="payment-opt" onclick="selectPayment(this)">
+              <div class="payment-opt-icon" style="background:#dcfce7">🏦</div>
+              <div class="payment-opt-info">
+                <div class="payment-opt-name">COD</div>
+                <div class="payment-opt-desc">Bayar di tempat saat paket tiba</div>
+              </div>
+              <div class="payment-radio">
+                <div class="payment-radio-dot"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ringkasan Harga -->
+        <div class="checkout-section">
+          <div class="checkout-section-title">
+            <svg viewBox="0 0 24 24">
+              <line x1="12" y1="1" x2="12" y2="23" />
+              <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
+            </svg>
+            Ringkasan Harga
+          </div>
+          <div class="summary-row"><span>Harga Produk</span><span id="sumProductPrice">Rp 2.499.000</span></div>
+          <div class="summary-row"><span>Ongkos Kirim</span><span>Rp 25.000</span></div>
+          <div class="summary-row"><span>Diskon</span><span style="color:#16a34a">- Rp 0</span></div>
+          <div class="summary-row total"><span>Total Pembayaran</span><span id="sumTotal">Rp 2.524.000</span></div>
+        </div>
+
+      </div><!-- /checkout-scroll -->
+
+      <!-- Order Button -->
+      <div class="checkout-bar">
+        <button class="btn-order" onclick="placeOrder()">
+          <svg viewBox="0 0 24 24">
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+            <polyline points="22 4 12 14.01 9 11.01" />
+          </svg>
+          Pesan Sekarang
+        </button>
+      </div>
+
+    </div><!-- /screen-checkout -->
+
+    <!-- ===================== SCREEN 5: RIWAYAT PESANAN ===================== -->
+    <div class="screen" id="screen-orders">
+
+      <!-- Header -->
+      <div class="orders-header">
+        <div class="orders-header-top">
+          <div class="back-btn" style="background:rgba(255,255,255,0.2)" onclick="goToHome()">
+            <svg viewBox="0 0 24 24" style="stroke:#fff">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </div>
+          <div>
+            <h2>Riwayat Pesanan</h2>
+            <p>Semua transaksi ElecStore-mu</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="orders-tabs-wrap">
+        <button class="order-tab active" onclick="filterOrders('semua', this)">Semua</button>
+        <button class="order-tab" onclick="filterOrders('Diproses', this)">Diproses</button>
+        <button class="order-tab" onclick="filterOrders('Dikirim', this)">Dikirim</button>
+        <button class="order-tab" onclick="filterOrders('Selesai', this)">Selesai</button>
+      </div>
+
+      <!-- Orders List -->
+      <div class="orders-scroll" id="ordersList"></div>
+
+      <!-- Bottom Nav (Orders page) -->
+      <div class="bottom-nav">
+        <div class="nav-item" onclick="goToHome()">
+          <div class="nav-icon-wrap">
+            <svg viewBox="0 0 24 24">
+              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" />
+            </svg>
+          </div>
+          Beranda
+        </div>
+        <div class="nav-item" onclick="goToSearch()">
+          <div class="nav-icon-wrap">
+            <svg viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+          </div>
+          Cari
+        </div>
+        <div class="nav-item active">
+          <div class="nav-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="#0369a1" stroke="#0369a1">
+              <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" />
+              <rect x="9" y="3" width="6" height="4" rx="1" />
+              <line x1="9" y1="12" x2="15" y2="12" />
+              <line x1="9" y1="16" x2="13" y2="16" />
+            </svg>
+          </div>
+          Pesanan
+        </div>
+        <div class="nav-item" onclick="goToProfile()">
+          <div class="nav-icon-wrap">
+            <svg viewBox="0 0 24 24">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </div>
+          Akun
+        </div>
+      </div>
+
+    </div><!-- /screen-orders -->
+
+    <!-- ===================== SCREEN: SEARCH ===================== -->
+    <div class="screen" id="screen-search">
+
+      <!-- Header -->
+      <div class="search-header">
+        <div class="search-header-box">
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input type="text" id="searchInput" placeholder="Cari produk, merek, atau kategori..."
+            oninput="doSearch(this.value)" />
+        </div>
+        <button class="search-cancel-btn" onclick="goToHome()">Batal</button>
+      </div>
+
+      <!-- Content -->
+      <div class="search-scroll" id="searchContent">
+        <!-- Default: trending -->
+        <div id="searchDefault">
+          <div class="search-results-title">🔥 Pencarian Populer</div>
+          <div class="search-tag-row">
+            <span class="search-tag" onclick="searchByTag('Samsung')">Samsung</span>
+            <span class="search-tag" onclick="searchByTag('iPhone')">iPhone</span>
+            <span class="search-tag" onclick="searchByTag('Xiaomi')">Xiaomi</span>
+            <span class="search-tag" onclick="searchByTag('Headphone')">Headphone</span>
+            <span class="search-tag" onclick="searchByTag('Laptop')">Laptop</span>
+            <span class="search-tag" onclick="searchByTag('Sony')">Sony</span>
+            <span class="search-tag" onclick="searchByTag('Asus')">Asus</span>
+            <span class="search-tag" onclick="searchByTag('TWS')">TWS</span>
+          </div>
+          <div class="search-results-title" style="margin-top:8px">📦 Kategori</div>
+          <div class="cat-chips">
+            <div class="cat-chip active" onclick="filterSearchCat(this,'Semua')">Semua</div>
+            <div class="cat-chip" onclick="filterSearchCat(this,'HP')">HP</div>
+            <div class="cat-chip" onclick="filterSearchCat(this,'Laptop')">Laptop</div>
+            <div class="cat-chip" onclick="filterSearchCat(this,'Audio')">Audio</div>
+            <div class="cat-chip" onclick="filterSearchCat(this,'TV')">TV</div>
+            <div class="cat-chip" onclick="filterSearchCat(this,'Elektronik')">Elektronik</div>
+          </div>
+          <div class="search-results-title">Semua Produk</div>
+          <div class="products-grid" id="searchGrid"></div>
+        </div>
+      </div>
+
+      <!-- Bottom Nav -->
+      <div class="bottom-nav">
+        <div class="nav-item" onclick="goToHome()">
+          <div class="nav-icon-wrap">
+            <svg viewBox="0 0 24 24">
+              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" />
+            </svg>
+          </div>
+          Beranda
+        </div>
+        <div class="nav-item active">
+          <div class="nav-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="#0369a1" stroke="#0369a1">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+          </div>
+          Cari
+        </div>
+        <div class="nav-item" onclick="goToOrders()">
+          <div class="nav-icon-wrap">
+            <svg viewBox="0 0 24 24">
+              <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" />
+              <rect x="9" y="3" width="6" height="4" rx="1" />
+              <line x1="9" y1="12" x2="15" y2="12" />
+              <line x1="9" y1="16" x2="13" y2="16" />
+            </svg>
+          </div>
+          Pesanan
+        </div>
+        <div class="nav-item" onclick="goToProfile()">
+          <div class="nav-icon-wrap">
+            <svg viewBox="0 0 24 24">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </div>
+          Akun
+        </div>
+      </div>
+
+    </div><!-- /screen-search -->
+
+    <!-- ===================== SCREEN: CART ===================== -->
+    <div class="screen" id="screen-cart">
+
+      <!-- Header -->
+      <div class="cart-header">
+        <div class="back-btn" onclick="goToHome()">
+          <svg viewBox="0 0 24 24">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </div>
+        <h2>Keranjang Belanja</h2>
+        <button class="cart-clear-btn" onclick="clearCart()">Hapus Semua</button>
+      </div>
+
+      <!-- Cart Items -->
+      <div class="cart-scroll" id="cartList"></div>
+
+      <!-- Cart Bottom Bar -->
+      <div class="cart-bar">
+        <div class="cart-bar-total">
+          <span class="cart-bar-total-label">Total Pembayaran</span>
+          <span class="cart-bar-total-price" id="cartTotal">Rp 0</span>
+        </div>
+        <button class="btn-order" id="cartCheckoutBtn" onclick="cartCheckout()">
+          <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <path d="M16 10a4 4 0 01-8 0" />
+          </svg>
+          Checkout Sekarang
+        </button>
+      </div>
+
+    </div><!-- /screen-cart -->
+
+    <!-- Side Drawer -->
+    <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()">
+      <div class="drawer" onclick="event.stopPropagation()">
+        <div class="drawer-header">
+          <div class="drawer-brand">Elec<span>Store</span></div>
+          <div class="drawer-sub">Belanja Elektronik Terbaik</div>
+        </div>
+        <div class="drawer-menu">
+          <div class="drawer-item" onclick="closeDrawer(); goToHome()">
+            <svg viewBox="0 0 24 24">
+              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" />
+            </svg>
+            Beranda
+          </div>
+          <div class="drawer-item" onclick="closeDrawer(); goToSearch()">
+            <svg viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            Cari Produk
+          </div>
+          <div class="drawer-item" onclick="closeDrawer(); goToCart()">
+            <svg viewBox="0 0 24 24">
+              <circle cx="9" cy="21" r="1" />
+              <circle cx="20" cy="21" r="1" />
+              <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.95-1.57l1.65-8.42H6" />
+            </svg>
+            Keranjang
+            <span class="drawer-item-badge" id="drawerCartBadge" style="display:none">0</span>
+          </div>
+          <div class="drawer-divider"></div>
+          <div class="drawer-item" onclick="closeDrawer(); goToOrders()">
+            <svg viewBox="0 0 24 24">
+              <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" />
+              <rect x="9" y="3" width="6" height="4" rx="1" />
+              <line x1="9" y1="12" x2="15" y2="12" />
+              <line x1="9" y1="16" x2="13" y2="16" />
+            </svg>
+            Riwayat Pesanan
+          </div>
+          <div class="drawer-divider"></div>
+          <div class="drawer-item" onclick="closeDrawer(); goToSearchCategory('HP')">
+            <svg viewBox="0 0 24 24">
+              <rect x="5" y="2" width="14" height="20" rx="2" />
+              <circle cx="12" cy="18" r="1" fill="#0369a1" />
+            </svg>
+            HP & Smartphone
+          </div>
+          <div class="drawer-item" onclick="closeDrawer(); goToSearchCategory('Laptop')">
+            <svg viewBox="0 0 24 24">
+              <rect x="3" y="4" width="18" height="13" rx="1" />
+              <path d="M1 20h22" />
+            </svg>
+            Laptop & Komputer
+          </div>
+          <div class="drawer-item" onclick="closeDrawer(); goToSearchCategory('Audio')">
+            <svg viewBox="0 0 24 24">
+              <path d="M3 18v-6a9 9 0 0118 0v6" />
+              <path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3v5z" />
+              <path d="M3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3v5z" />
+            </svg>
+            Audio & Headphone
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== SCREEN: PROFIL AKUN ===================== -->
+    <div class="screen" id="screen-profile">
+
+      <!-- Header -->
+      <div class="profile-header">
+        <div class="back-btn" style="background:rgba(255,255,255,0.2)" onclick="goToHome()">
+          <svg viewBox="0 0 24 24" style="stroke:#fff">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </div>
+        <div class="profile-avatar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" width="48" height="48">
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+        </div>
+        <div class="profile-name">Pengguna ElecStore</div>
+        <div class="profile-email">pengguna@elecstore.id</div>
+        <div class="profile-stats">
+          <div class="profile-stat">
+            <div class="profile-stat-num" id="profileOrderCount">0</div>
+            <div class="profile-stat-label">Pesanan</div>
+          </div>
+          <div class="profile-stat-divider"></div>
+          <div class="profile-stat">
+            <div class="profile-stat-num" id="profileCartCount">0</div>
+            <div class="profile-stat-label">Keranjang</div>
+          </div>
+          <div class="profile-stat-divider"></div>
+          <div class="profile-stat">
+            <div class="profile-stat-num" id="profileDoneCount">0</div>
+            <div class="profile-stat-label">Selesai</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Menu List -->
+      <div class="profile-scroll">
+        <div class="profile-section-label">Akun Saya</div>
+        <div class="profile-menu">
+          <div class="profile-menu-item">
+            <div class="profile-menu-icon" style="background:#e0f2fe">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#0369a1" stroke-width="2" width="20" height="20">
+                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </div>
+            <span>Profil Saya</span>
+            <svg class="profile-arrow" viewBox="0 0 24 24">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </div>
+          <div class="profile-menu-item" onclick="goToOrders()">
+            <div class="profile-menu-icon" style="background:#fef3c7">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" width="20" height="20">
+                <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" />
+                <rect x="9" y="3" width="6" height="4" rx="1" />
+                <line x1="9" y1="12" x2="15" y2="12" />
+                <line x1="9" y1="16" x2="13" y2="16" />
+              </svg>
+            </div>
+            <span>Riwayat Pesanan</span>
+            <svg class="profile-arrow" viewBox="0 0 24 24">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </div>
+          <div class="profile-menu-item" onclick="goToCart()">
+            <div class="profile-menu-icon" style="background:#dcfce7">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" width="20" height="20">
+                <circle cx="9" cy="21" r="1" />
+                <circle cx="20" cy="21" r="1" />
+                <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.95-1.57l1.65-8.42H6" />
+              </svg>
+            </div>
+            <span>Keranjang Saya</span>
+            <svg class="profile-arrow" viewBox="0 0 24 24">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </div>
+        </div>
+
+        <div class="profile-section-label">Pengaturan</div>
+        <div class="profile-menu">
+          <div class="profile-menu-item">
+            <div class="profile-menu-icon" style="background:#f0f9ff">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#0369a1" stroke-width="2" width="20" height="20">
+                <path d="M18 8h1a4 4 0 010 8h-1" />
+                <path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z" />
+                <line x1="6" y1="1" x2="6" y2="4" />
+                <line x1="10" y1="1" x2="10" y2="4" />
+                <line x1="14" y1="1" x2="14" y2="4" />
+              </svg>
+            </div>
+            <span>Notifikasi</span>
+            <svg class="profile-arrow" viewBox="0 0 24 24">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </div>
+          <div class="profile-menu-item">
+            <div class="profile-menu-icon" style="background:#fef9c3">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#ca8a04" stroke-width="2" width="20" height="20">
+                <circle cx="12" cy="12" r="3" />
+                <path
+                  d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" />
+              </svg>
+            </div>
+            <span>Pengaturan Akun</span>
+            <svg class="profile-arrow" viewBox="0 0 24 24">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </div>
+          <div class="profile-menu-item">
+            <div class="profile-menu-icon" style="background:#fee2e2">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" width="20" height="20">
+                <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+              </svg>
+            </div>
+            <span style="color:#dc2626">Keluar</span>
+            <svg class="profile-arrow" viewBox="0 0 24 24">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </div>
+        </div>
+
+        <div style="text-align:center;padding:20px;font-size:11px;color:#cbd5e1;font-weight:600">
+          ElecStore v1.0 &bull; Belanja Elektronik Terbaik
+        </div>
+      </div>
+
+      <!-- Bottom Nav -->
+      <div class="bottom-nav">
+        <div class="nav-item" onclick="goToHome()">
+          <div class="nav-icon-wrap">
+            <svg viewBox="0 0 24 24">
+              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" />
+            </svg>
+          </div>
+          Beranda
+        </div>
+        <div class="nav-item" onclick="goToSearch()">
+          <div class="nav-icon-wrap">
+            <svg viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+          </div>
+          Cari
+        </div>
+        <div class="nav-item" onclick="goToOrders()">
+          <div class="nav-icon-wrap">
+            <svg viewBox="0 0 24 24">
+              <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" />
+              <rect x="9" y="3" width="6" height="4" rx="1" />
+              <line x1="9" y1="12" x2="15" y2="12" />
+              <line x1="9" y1="16" x2="13" y2="16" />
+            </svg>
+          </div>
+          Pesanan
+        </div>
+        <div class="nav-item active">
+          <div class="nav-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="#0369a1" stroke="#0369a1">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </div>
+          Akun
+        </div>
+      </div>
+
+    </div><!-- /screen-profile -->
+
+    <!-- Order Success Modal -->
+    <div class="modal-overlay" id="orderModal">
+      <div class="modal-box">
+        <div class="modal-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+            <polyline points="22 4 12 14.01 9 11.01" />
+          </svg>
+        </div>
+        <h3>Pesanan Berhasil! 🎉</h3>
+        <p>Pesananmu sedang diproses oleh penjual. Kamu bisa memantau status pesanan di halaman Riwayat.</p>
+        <div class="modal-order-num" id="modalOrderNum">No. Pesanan: #ELC0001</div>
+        <button class="modal-btn" onclick="closeModalAndGoOrders()">Lihat Riwayat Pesanan</button>
+      </div>
+    </div>
+
+    <!-- Konfirmasi Batalkan Pesanan -->
+    <div class="modal-overlay" id="cancelConfirmModal">
+      <div class="modal-box">
+        <div class="confirm-modal-icon-cancel">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="15" y1="9" x2="9" y2="15" />
+            <line x1="9" y1="9" x2="15" y2="15" />
+          </svg>
+        </div>
+        <h3>Batalkan Pesanan?</h3>
+        <p>Pesanan <strong id="cancelOrderId"></strong> akan dibatalkan dan tidak dapat dikembalikan ke status
+          sebelumnya.</p>
+        <div class="modal-btn-row">
+          <button class="modal-btn-outline" onclick="closeCancelModal()">Kembali</button>
+          <button class="modal-btn-danger" onclick="confirmCancel()">Ya, Batalkan</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Konfirmasi Terima Pesanan -->
+    <div class="modal-overlay" id="receiveConfirmModal">
+      <div class="modal-box">
+        <div class="confirm-modal-icon-done">
+          <svg viewBox="0 0 24 24">
+            <path d="M20 6L9 17l-5-5" />
+          </svg>
+        </div>
+        <h3>Pesanan Sudah Diterima?</h3>
+        <p>Pastikan kamu sudah menerima produk <strong id="receiveOrderId"></strong> dalam kondisi baik sebelum
+          mengkonfirmasi.</p>
+        <div class="modal-btn-row">
+          <button class="modal-btn-outline" onclick="closeReceiveModal()">Belum</button>
+          <button class="modal-btn-success" onclick="confirmReceive()">Ya, Sudah Diterima</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+  </div><!-- /phone-frame -->
+
+  <script>
+    /* ===== STATE ===== */
+    let qty = 1;
+    let detailWished = false;
+    let currentProduct = 'samsung';
+    let orders = JSON.parse(localStorage.getItem('elecstore_orders') || '[]');
+    let activeOrderFilter = 'semua';
+    let cart = JSON.parse(localStorage.getItem('elecstore_cart') || '[]');
+    let searchCatFilter = 'Semua';
+
+    /* ===== PRODUCT DB ===== */
+    const productDB = [
+      /* ── HP ── */
+      { id: 'samsung', name: 'Samsung Galaxy A15', price: 2499000, img: 'images/samsung_a15.png', cat: 'HP', rating: '4.8', brand: 'Samsung', tag: ['samsung', 'hp', 'smartphone', 'android', 'galaxy'] },
+      { id: 'iphone15', name: 'Apple iPhone 15 128GB', price: 12999000, img: 'images/samsung_a15.png', cat: 'HP', rating: '4.9', brand: 'Apple', tag: ['apple', 'iphone', 'ios', 'hp', 'smartphone', 'iphone15'] },
+      { id: 'xiaomi13t', name: 'Xiaomi 13T Pro 256GB', price: 7499000, img: 'images/samsung_a15.png', cat: 'HP', rating: '4.7', brand: 'Xiaomi', tag: ['xiaomi', 'hp', 'smartphone', 'android', '13t'] },
+      { id: 'samsungs24', name: 'Samsung Galaxy S24 256GB', price: 13999000, img: 'images/samsung_a15.png', cat: 'HP', rating: '4.9', brand: 'Samsung', tag: ['samsung', 's24', 'hp', 'flagship', 'galaxy'] },
+      { id: 'xiaomiredmi', name: 'Xiaomi Redmi Note 13', price: 1999000, img: 'images/samsung_a15.png', cat: 'HP', rating: '4.6', brand: 'Xiaomi', tag: ['xiaomi', 'redmi', 'hp', 'note', 'android'] },
+      /* ── LAPTOP ── */
+      { id: 'asusvivobook', name: 'Asus VivoBook 15 i5', price: 8499000, img: 'images/samsung_a15.png', cat: 'Laptop', rating: '4.7', brand: 'Asus', tag: ['asus', 'laptop', 'vivobook', 'intel', 'i5'] },
+      { id: 'asusrog', name: 'Asus ROG Strix G15', price: 17999000, img: 'images/samsung_a15.png', cat: 'Laptop', rating: '4.8', brand: 'Asus', tag: ['asus', 'rog', 'gaming', 'laptop', 'strix'] },
+      { id: 'xiaomibook', name: 'Xiaomi Book Pro 14', price: 9999000, img: 'images/samsung_a15.png', cat: 'Laptop', rating: '4.6', brand: 'Xiaomi', tag: ['xiaomi', 'laptop', 'book', 'pro', 'windows'] },
+      /* ── AUDIO ── */
+      { id: 'earphone', name: 'Earphone TWS Pro', price: 299000, img: 'images/earphone_tws.png', cat: 'Audio', rating: '4.7', brand: 'Generic', tag: ['earphone', 'tws', 'audio', 'wireless', 'bluetooth'] },
+      { id: 'headphone', name: 'Headphone Studio Pro', price: 549000, img: 'images/headphone.png', cat: 'Audio', rating: '4.9', brand: 'Generic', tag: ['headphone', 'audio', 'studio', 'music', 'pro'] },
+      { id: 'sonywh1000', name: 'Sony WH-1000XM5', price: 3799000, img: 'images/headphone.png', cat: 'Audio', rating: '5.0', brand: 'Sony', tag: ['sony', 'headphone', 'noise cancelling', 'wh1000', 'audio'] },
+      { id: 'sonyearbuds', name: 'Sony WF-1000XM5 TWS', price: 2299000, img: 'images/earphone_tws.png', cat: 'Audio', rating: '4.9', brand: 'Sony', tag: ['sony', 'earbuds', 'tws', 'noise cancelling', 'wireless'] },
+      /* ── TV ── */
+      { id: 'samsungtv', name: 'Samsung Smart TV 43"', price: 5499000, img: 'images/samsung_a15.png', cat: 'TV', rating: '4.7', brand: 'Samsung', tag: ['samsung', 'tv', 'smart tv', '4k', 'qled'] },
+      { id: 'sonytv', name: 'Sony BRAVIA 50" 4K HDR', price: 7299000, img: 'images/samsung_a15.png', cat: 'TV', rating: '4.8', brand: 'Sony', tag: ['sony', 'tv', '4k', 'hdr', 'bravia'] },
+      /* ── ELEKTRONIK ── */
+      { id: 'aksesoris', name: 'Aksesoris Bundle Set', price: 149000, img: 'images/cart_icon.png', cat: 'Elektronik', rating: '4.5', brand: 'Generic', tag: ['aksesoris', 'bundle', 'elektronik', 'kabel', 'charger'] },
+      { id: 'samsungwatch', name: 'Samsung Galaxy Watch 6', price: 2999000, img: 'images/samsung_a15.png', cat: 'Elektronik', rating: '4.8', brand: 'Samsung', tag: ['samsung', 'smartwatch', 'watch', 'wearable', 'fitness'] },
+      { id: 'xiaomiband', name: 'Xiaomi Smart Band 8', price: 399000, img: 'images/samsung_a15.png', cat: 'Elektronik', rating: '4.6', brand: 'Xiaomi', tag: ['xiaomi', 'band', 'smartband', 'fitness', 'wearable'] }
+    ];
+
+    /* ===== NAVIGATION ===== */
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function goToHome() { showScreen('screen-home'); }
+    function goToOrders() {
+      renderOrders(activeOrderFilter);
+      showScreen('screen-orders');
+    }
+    function goBackFromCheckout() { showScreen('screen-detail'); }
+
+    function goToSearch() {
+      document.getElementById('searchInput').value = '';
+      searchCatFilter = 'Semua';
+      renderSearchGrid(productDB);
+      // reset cat chips
+      document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+      const first = document.querySelector('.cat-chip');
+      if (first) first.classList.add('active');
+      showScreen('screen-search');
+      setTimeout(() => document.getElementById('searchInput').focus(), 300);
+    }
+
+    function goToSearchCategory(cat) {
+      searchCatFilter = cat;
+      document.getElementById('searchInput').value = '';
+      const filtered = productDB.filter(p => p.cat === cat || cat === 'Semua');
+      renderSearchGrid(filtered);
+      document.querySelectorAll('.cat-chip').forEach(c => {
+        c.classList.toggle('active', c.textContent === cat);
+      });
+      showScreen('screen-search');
+    }
+
+    function goToCart() {
+      renderCart();
+      showScreen('screen-cart');
+    }
+
+    function goToDetail(type) {
+      currentProduct = type;
+      const img = document.getElementById('detailImg');
+      const name = document.getElementById('detailName');
+      const price = document.getElementById('detailPrice');
+      const prod = productDB.find(p => p.id === type);
+      if (prod) {
+        img.src = prod.img;
+        img.alt = prod.name;
+        name.textContent = prod.name;
+        price.textContent = 'Rp ' + prod.price.toLocaleString('id-ID');
+      } else {
+        img.src = 'images/samsung_a15.png';
+        img.alt = 'Samsung A15';
+        name.textContent = 'Smartphone Samsung A15';
+        price.textContent = 'Rp 2.499.000';
+      }
+      qty = 1;
+      document.getElementById('qtyNum').textContent = 1;
+      showScreen('screen-detail');
+    }
+
+    /* ===== CHECKOUT ===== */
+    function goToCheckout() {
+      const name = document.getElementById('detailName').textContent;
+      const price = document.getElementById('detailPrice').textContent;
+      const imgSrc = document.getElementById('detailImg').src;
+      const color = document.querySelector('.color-swatch.selected')?.dataset.color || 'Hitam';
+      const storage = document.querySelector('.storage-btn.selected')?.textContent || '128 GB';
+
+      document.getElementById('checkoutImg').src = imgSrc;
+      document.getElementById('checkoutName').textContent = name;
+      document.getElementById('checkoutVariant').textContent = `${color} · ${storage}`;
+      document.getElementById('checkoutQty').textContent = `Jumlah: ${qty}`;
+      document.getElementById('sumProductPrice').textContent = price;
+
+      const rawPrice = parseInt(price.replace(/[^0-9]/g, ''));
+      const total = rawPrice * qty + 25000;
+      document.getElementById('sumTotal').textContent = 'Rp ' + total.toLocaleString('id-ID').replace(/\./g, '.');
+
+      showScreen('screen-checkout');
+    }
+
+    function cartCheckout() {
+      if (cart.length === 0) return;
+      // Use first cart item for checkout form prefill
+      const first = cart[0];
+      document.getElementById('checkoutImg').src = first.img;
+      document.getElementById('checkoutName').textContent = first.name + (cart.length > 1 ? ` + ${cart.length - 1} produk lain` : '');
+      document.getElementById('checkoutVariant').textContent = first.variant;
+      document.getElementById('checkoutQty').textContent = `Jumlah: ${first.qty}`;
+      const rawPrice = cart.reduce((s, c) => s + c.price * c.qty, 0);
+      document.getElementById('sumProductPrice').textContent = 'Rp ' + rawPrice.toLocaleString('id-ID');
+      const total = rawPrice + 25000;
+      document.getElementById('sumTotal').textContent = 'Rp ' + total.toLocaleString('id-ID');
+      currentProduct = first.productId;
+      showScreen('screen-checkout');
+    }
+
+    function selectPayment(el) {
+      document.querySelectorAll('.payment-opt').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+
+    /* ===== PLACE ORDER ===== */
+    function placeOrder() {
+      const recName = document.getElementById('recName').value.trim();
+      const recPhone = document.getElementById('recPhone').value.trim();
+      const recAddress = document.getElementById('recAddress').value.trim();
+      const recCity = document.getElementById('recCity').value.trim();
+
+      if (!recName || !recPhone || !recAddress || !recCity) {
+        showToast('⚠️ Lengkapi data pengiriman terlebih dahulu!');
+        return;
+      }
+
+      const name = document.getElementById('checkoutName').textContent;
+      const variant = document.getElementById('checkoutVariant').textContent;
+      const qtyText = document.getElementById('checkoutQty').textContent;
+      const totalText = document.getElementById('sumTotal').textContent;
+      const imgSrc = document.getElementById('checkoutImg').src;
+      const payment = document.querySelector('.payment-opt.selected .payment-opt-name')?.textContent || 'Transfer Bank';
+
+      const orderNum = 'ELC' + String(Date.now()).slice(-6);
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+
+      const newOrder = {
+        id: orderNum,
+        date: dateStr,
+        status: 'Diproses',
+        productName: name,
+        productVariant: variant,
+        productQty: qtyText,
+        productImg: currentProduct,
+        total: totalText,
+        payment: payment,
+        address: `${recName} · ${recCity}`
+      };
+
+      orders.unshift(newOrder);
+      localStorage.setItem('elecstore_orders', JSON.stringify(orders));
+      updateOrderBadge();
+
+      document.getElementById('modalOrderNum').textContent = 'No. Pesanan: #' + orderNum;
+      document.getElementById('orderModal').classList.add('show');
+    }
+
+    function closeModalAndGoOrders() {
+      document.getElementById('orderModal').classList.remove('show');
+      activeOrderFilter = 'semua';
+      renderOrders('semua');
+      showScreen('screen-orders');
+      // reset checkout form
+      ['recName', 'recPhone', 'recAddress', 'recCity', 'recZip'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+    }
+
+    /* ===== RENDER ORDERS ===== */
+    function renderOrders(filter) {
+      activeOrderFilter = filter;
+      const list = document.getElementById('ordersList');
+      const filtered = filter === 'semua' ? orders : orders.filter(o => o.status === filter);
+
+      if (filtered.length === 0) {
+        list.innerHTML = `
+          <div class="empty-orders">
+            <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
+            <h3>Belum Ada Pesanan</h3>
+            <p>Pesanan dengan status ini belum ada.</p>
+          </div>`;
+        return;
+      }
+
+      const imgMap = { samsung: 'images/samsung_a15.png', earphone: 'images/earphone_tws.png' };
+
+      const statusBadgeMap = {
+        'Diproses': 'badge-process',
+        'Dikirim': 'badge-shipped',
+        'Selesai': 'badge-done',
+        'Dibatalkan': 'badge-cancel'
+      };
+      const actionMap = {
+        'Diproses': `<button class="order-action-btn" onclick="cancelOrder(event, '{id}')">Batalkan</button>`,
+        'Dikirim': `<button class="order-action-btn primary" onclick="receiveOrder(event, '{id}')">Terima Pesanan</button>`,
+        'Selesai': `<button class="order-action-btn" onclick="reorder(event, '{id}')">Beli Lagi</button>`,
+        'Dibatalkan': `<button class="order-action-btn" onclick="reorder(event, '{id}')">Pesan Ulang</button>`
+      };
+
+      list.innerHTML = filtered.map(o => {
+        const badgeClass = statusBadgeMap[o.status] || 'badge-pending';
+        const imgSrc = imgMap[o.productImg] || 'images/samsung_a15.png';
+        const action = (actionMap[o.status] || '').replace(/'{id}'/g, o.id);
+        return `
+        <div class="order-card">
+          <div class="order-card-header">
+            <div>
+              <div class="order-id">#${o.id}</div>
+              <div class="order-date">${o.date} · ${o.payment}</div>
+            </div>
+            <span class="order-status-badge ${badgeClass}">${o.status}</span>
+          </div>
+          <div class="order-product-row">
+            <div class="order-product-img"><img src="${imgSrc}" alt="${o.productName}" /></div>
+            <div class="order-product-info">
+              <div class="order-product-name">${o.productName}</div>
+              <div class="order-product-variant">${o.productVariant}</div>
+              <div class="order-product-qty">${o.productQty}</div>
+            </div>
+          </div>
+          <div class="order-card-footer">
+            <div>
+              <div class="order-total-label">Total Pembayaran</div>
+              <div class="order-total-price">${o.total}</div>
+            </div>
+            ${action}
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function filterOrders(status, btn) {
+      document.querySelectorAll('.order-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      renderOrders(status);
+    }
+
+    /* ===== PENDING ACTION ID (for confirm modals) ===== */
+    let pendingActionId = null;
+
+    /* ===== CANCEL ORDER MODAL ===== */
+    function cancelOrder(e, id) {
+      e.stopPropagation();
+      pendingActionId = id;
+      const order = orders.find(o => o.id === id);
+      document.getElementById('cancelOrderId').textContent = '#' + id + (order ? ' (' + order.productName + ')' : '');
+      document.getElementById('cancelConfirmModal').classList.add('show');
+    }
+
+    function closeCancelModal() {
+      document.getElementById('cancelConfirmModal').classList.remove('show');
+      pendingActionId = null;
+    }
+
+    function confirmCancel() {
+      if (!pendingActionId) return;
+      const order = orders.find(o => o.id === pendingActionId);
+      if (order) {
+        order.status = 'Dibatalkan';
+        localStorage.setItem('elecstore_orders', JSON.stringify(orders));
+        updateOrderBadge();
+        renderOrders(activeOrderFilter);
+        showToast('❌ Pesanan #' + pendingActionId + ' berhasil dibatalkan');
+      }
+      closeCancelModal();
+    }
+
+    /* ===== RECEIVE ORDER MODAL ===== */
+    function receiveOrder(e, id) {
+      e.stopPropagation();
+      pendingActionId = id;
+      const order = orders.find(o => o.id === id);
+      document.getElementById('receiveOrderId').textContent = order ? order.productName : '#' + id;
+      document.getElementById('receiveConfirmModal').classList.add('show');
+    }
+
+    function closeReceiveModal() {
+      document.getElementById('receiveConfirmModal').classList.remove('show');
+      pendingActionId = null;
+    }
+
+    function confirmReceive() {
+      if (!pendingActionId) return;
+      const order = orders.find(o => o.id === pendingActionId);
+      if (order) {
+        order.status = 'Selesai';
+        localStorage.setItem('elecstore_orders', JSON.stringify(orders));
+        updateOrderBadge();
+        renderOrders(activeOrderFilter);
+        showToast('✅ Pesanan #' + pendingActionId + ' selesai! Terima kasih');
+      }
+      closeReceiveModal();
+    }
+
+    function reorder(e, id) {
+      e.stopPropagation();
+      const order = orders.find(o => o.id === id);
+      if (order) {
+        goToDetail(order.productImg);
+        showToast('🛍️ Silakan pesan ulang produk ini!');
+      }
+    }
+
+    function updateOrderBadge() {
+      const pending = orders.filter(o => o.status === 'Diproses' || o.status === 'Dikirim').length;
+      const badge = document.getElementById('orderBadge');
+      if (badge) {
+        badge.textContent = pending;
+        badge.style.display = pending > 0 ? 'flex' : 'none';
+      }
+    }
+
+    /* ===== WISHLIST (Home Cards) ===== */
+    function toggleWish(e, id) {
+      e.stopPropagation();
+      const btn = document.getElementById(id);
+      btn.classList.toggle('active');
+      const svg = btn.querySelector('svg path');
+      if (btn.classList.contains('active')) {
+        svg.style.fill = '#f43f5e';
+        showToast('Ditambahkan ke Favorit ❤️');
+      } else {
+        svg.style.fill = 'none';
+        showToast('Dihapus dari Favorit');
+      }
+    }
+
+    /* ===== WISHLIST (Detail) ===== */
+    function toggleDetailWish() {
+      detailWished = !detailWished;
+      const icon = document.getElementById('wishlistTopIcon');
+      const path = icon.querySelector('path');
+      if (detailWished) { path.style.fill = '#f43f5e'; showToast('Ditambahkan ke Favorit ❤️'); }
+      else { path.style.fill = 'none'; showToast('Dihapus dari Favorit'); }
+    }
+
+    /* ===== COLOR SELECTOR ===== */
+    function selectColor(el) {
+      document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+
+    /* ===== STORAGE SELECTOR ===== */
+    function selectStorage(el) {
+      document.querySelectorAll('.storage-btn').forEach(b => b.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+
+    /* ===== QTY ===== */
+    function changeQty(delta) {
+      qty = Math.max(1, qty + delta);
+      document.getElementById('qtyNum').textContent = qty;
+    }
+
+    /* ===== ADD TO CART ===== */
+    function addToCart() {
+      const name = document.getElementById('detailName').textContent;
+      const priceText = document.getElementById('detailPrice').textContent;
+      const imgSrc = document.getElementById('detailImg').src;
+      const color = document.querySelector('.color-swatch.selected')?.dataset.color || 'Hitam';
+      const storage = document.querySelector('.storage-btn.selected')?.textContent || '128 GB';
+      const rawPrice = parseInt(priceText.replace(/[^0-9]/g, ''));
+
+      const existing = cart.find(c => c.productId === currentProduct && c.variant === `${color} · ${storage}`);
+      if (existing) {
+        existing.qty += qty;
+      } else {
+        cart.push({
+          productId: currentProduct,
+          name,
+          price: rawPrice,
+          img: imgSrc,
+          variant: `${color} · ${storage}`,
+          qty
+        });
+      }
+      localStorage.setItem('elecstore_cart', JSON.stringify(cart));
+      updateCartBadge();
+      showToast(`🛒 ${qty}x ${name} ditambahkan ke keranjang!`);
+    }
+
+    /* ===== CART MANAGEMENT ===== */
+    function renderCart() {
+      const list = document.getElementById('cartList');
+      if (cart.length === 0) {
+        list.innerHTML = `
+          <div class="empty-cart">
+            <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" /><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 001.95-1.57l1.65-8.42H6" /></svg>
+            <h3>Keranjang Kosong</h3>
+            <p>Yuk, tambahkan produk ke keranjang!</p>
+            <button class="empty-cart-btn" onclick="goToHome()">Mulai Belanja</button>
+          </div>`;
+        document.getElementById('cartTotal').textContent = 'Rp 0';
+        document.getElementById('cartCheckoutBtn').style.opacity = '0.5';
+        return;
+      }
+      document.getElementById('cartCheckoutBtn').style.opacity = '1';
+      const total = cart.reduce((s, c) => s + c.price * c.qty, 0);
+      document.getElementById('cartTotal').textContent = 'Rp ' + total.toLocaleString('id-ID');
+      list.innerHTML = cart.map((item, idx) => `
+        <div class="cart-item">
+          <div class="cart-item-img"><img src="${item.img}" alt="${item.name}" /></div>
+          <div class="cart-item-info">
+            <div class="cart-item-name">${item.name}</div>
+            <div class="cart-item-variant">${item.variant}</div>
+            <div class="cart-item-price">Rp ${item.price.toLocaleString('id-ID')}</div>
+            <div class="cart-item-qty-row">
+              <button class="cart-qty-btn" onclick="cartQty(${idx},-1)">−</button>
+              <span class="cart-item-num">${item.qty}</span>
+              <button class="cart-qty-btn" onclick="cartQty(${idx},1)">+</button>
+            </div>
+          </div>
+          <button class="cart-item-delete" onclick="removeCartItem(${idx})">
+            <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14H6L5 6" /><path d="M10 11v6" /><path d="M14 11v6" /><path d="M9 6V4h6v2" /></svg>
+          </button>
+        </div>`);
+    }
+
+    function cartQty(idx, delta) {
+      cart[idx].qty = Math.max(1, cart[idx].qty + delta);
+      localStorage.setItem('elecstore_cart', JSON.stringify(cart));
+      updateCartBadge();
+      renderCart();
+    }
+
+    function removeCartItem(idx) {
+      cart.splice(idx, 1);
+      localStorage.setItem('elecstore_cart', JSON.stringify(cart));
+      updateCartBadge();
+      renderCart();
+      showToast('🗑️ Produk dihapus dari keranjang');
+    }
+
+    function clearCart() {
+      if (cart.length === 0) return;
+      cart = [];
+      localStorage.setItem('elecstore_cart', JSON.stringify(cart));
+      updateCartBadge();
+      renderCart();
+      showToast('🗑️ Keranjang dikosongkan');
+    }
+
+    function updateCartBadge() {
+      const total = cart.reduce((s, c) => s + c.qty, 0);
+      ['cartBadge', 'cartBadge2'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.textContent = total; el.style.display = total > 0 ? 'flex' : 'none'; }
+      });
+      const drawerBadge = document.getElementById('drawerCartBadge');
+      if (drawerBadge) { drawerBadge.textContent = total; drawerBadge.style.display = total > 0 ? 'inline' : 'none'; }
+    }
+
+    /* ===== SEARCH ===== */
+    function doSearch(val) {
+      const q = val.toLowerCase();
+      const results = productDB.filter(p => {
+        const matchCat = searchCatFilter === 'Semua' || p.cat === searchCatFilter;
+        const matchQ = !q || p.name.toLowerCase().includes(q) || p.tag.some(t => t.includes(q));
+        return matchCat && matchQ;
+      });
+      renderSearchGrid(results);
+    }
+
+    function searchByTag(tag) {
+      document.getElementById('searchInput').value = tag;
+      doSearch(tag);
+    }
+
+    function filterSearchCat(el, cat) {
+      searchCatFilter = cat;
+      document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      doSearch(document.getElementById('searchInput').value);
+    }
+
+    function renderSearchGrid(products) {
+      const grid = document.getElementById('searchGrid');
+      if (!grid) return;
+      if (products.length === 0) {
+        grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:30px 0;color:#94a3b8;font-weight:700;font-size:13px">😕 Produk tidak ditemukan</div>`;
+        return;
+      }
+      grid.innerHTML = products.map(p => `
+        <div class="product-card" onclick="goToDetail('${p.id}')">
+          <div class="product-card-img"><img src="${p.img}" alt="${p.name}" /></div>
+          <div class="product-info">
+            <div class="product-name">${p.name}</div>
+            <div class="product-price">Rp ${p.price.toLocaleString('id-ID')}</div>
+          </div>
+        </div>`).join('');
+    }
+
+    /* ===== DRAWER ===== */
+    function openDrawer() {
+      document.getElementById('drawerOverlay').classList.add('show');
+    }
+
+    function closeDrawer() {
+      document.getElementById('drawerOverlay').classList.remove('show');
+    }
+
+    /* ===== PROFILE ===== */
+    function goToProfile() {
+      // Update live stats
+      document.getElementById('profileOrderCount').textContent = orders.length;
+      document.getElementById('profileCartCount').textContent = cart.reduce((s, c) => s + c.qty, 0);
+      document.getElementById('profileDoneCount').textContent = orders.filter(o => o.status === 'Selesai').length;
+      showScreen('screen-profile');
+    }
+
+    /* ===== TOAST ===== */
+    let toastTimer;
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    /* ===== INIT ===== */
+    updateOrderBadge();
+    updateCartBadge();
+    renderSearchGrid(productDB);
+  </script>
+
+</body>
+
+</html>
